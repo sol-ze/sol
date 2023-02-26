@@ -1,6 +1,9 @@
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/Homepage";
 import RegisterPage from "./pages/RegisterPage";
+
+import LifeCycleHooksPage from "./pages/LifeCycleHooksPage";
+
 const App = () => {
   return (
     <div className="container">
@@ -8,8 +11,9 @@ const App = () => {
         <Navbar isDark={true} />
       </header>
       <main>
-        <HomePage />
+        {/* <HomePage /> */}
         {/* <RegisterPage /> */}
+        <LifeCycleHooksPage />
       </main>
       <footer></footer>
     </div>
