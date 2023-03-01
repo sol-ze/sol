@@ -1,5 +1,14 @@
 import "./Navbar.css";
-const linksArr = ["Home", "About us", "Contact us", "Register", "Login"];
+import NavbarLinkPartial from "../../partials/NavbarLinkPartial";
+import LinkClass from "../../classes/LinkClass";
+
+const linksArr = [
+  new LinkClass("Home", "/"),
+  new LinkClass("About us", "/aboutUs"),
+  new LinkClass("Contact us", "/"),
+  new LinkClass("Register", "/registerpage"),
+  new LinkClass("Login", "/login"),
+];
 
 const Navbar = ({ isDark }) => {
   return (
@@ -7,15 +16,16 @@ const Navbar = ({ isDark }) => {
       className={`navbar ${
         isDark ? "bg-primary" : ""
       } navbar-expand-lg bg-body-tertiary`}
-      data-bs-theme="dark"
     >
       <div className="container-fluid">
-        <a
+        <NavbarLinkPartial
           className={`navbar-brand ${isDark ? "nav-item-light" : ""}`}
-          href="#"
+          to="/"
+          activeClassName="redText"
         >
           Navbar
-        </a>
+        </NavbarLinkPartial>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -32,12 +42,13 @@ const Navbar = ({ isDark }) => {
             {linksArr.map((item) => {
               return (
                 <li className="nav-item" key={item + Date.now()}>
-                  <a
+                  <NavbarLinkPartial
                     className={`nav-link ${isDark ? "nav-item-light" : ""}`}
-                    href="#"
+                    to={item.path}
+                    activeClassName="thickText"
                   >
-                    {item}
-                  </a>
+                    {item.name}
+                  </NavbarLinkPartial>
                 </li>
               );
             })}
@@ -63,5 +74,4 @@ const Navbar = ({ isDark }) => {
     </nav>
   );
 };
-
 export default Navbar;

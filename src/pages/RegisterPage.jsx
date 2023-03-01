@@ -22,7 +22,7 @@ const RegisterPage = () => {
   }, []);
   useEffect(() => {
     //each time inputsValue value changed this function will be executed
-    console.log("inputsValue changed", inputsValue);
+    // console.log("inputsValue changed", inputsValue);
     let newErrorsState = JSON.parse(JSON.stringify(errorsState));
     for (const [key, value] of Object.entries(inputsValue)) {
       // console.log(`${key}: ${value}`);
@@ -99,10 +99,7 @@ const RegisterPage = () => {
           Check me out
         </label>
       </div>
-      <button className="btn btn-primary" onClick={handleBtnClick}>
-        Submit
-      </button>
-      <ButtonPartial>click me</ButtonPartial>
+      <ButtonPartial onClick={handleBtnClick}>Submit</ButtonPartial>
     </Fragment>
   );
 };

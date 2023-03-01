@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import ButtonPartial from "../partials/ButtonPartial";
 
 const RegisterPage = () => {
   const [nameInputValue, setNameInputValue] = useState("");
@@ -67,9 +68,7 @@ const RegisterPage = () => {
           Check me out
         </label>
       </div>
-      <button className="btn btn-primary" onClick={handleBtnClick}>
-        Submit
-      </button>
+      <ButtonPartial onClick={handleBtnClick}>Submit</ButtonPartial>
     </Fragment>
   );
 };
