@@ -1,7 +1,7 @@
 import CardComponent from "../components/CardComponent";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
-const initialArray = [
+let initialArray = [
   {
     id: 1,
     imgUrl:
@@ -32,18 +32,26 @@ const initialArray = [
   },
 ];
 
-
 const HomePage = () => {
+  const [arrayToDisplay, setArrayToDisplay] = useState(initialArray);
+
+  const deleteItemFromArray = (id) => {
+    setArrayToDisplay((prevState) => prevState.filter((item) => item.id != id));
+    // initialArray = initialArray.filter((item) => item.id != id);
+  };
+
   return (
     <Fragment>
       <h1>Our Hottest deals</h1>
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {initialArray.map((item) => (
+        {arrayToDisplay.map((item) => (
           <div className="col" key={item.id + Date.now()}>
             <CardComponent
+              id={item.id}
               imgUrl={item.imgUrl}
               title={item.title}
               description={item.description}
+              onDelete={deleteItemFromArray}
             />
           </div>
         ))}
