@@ -1,12 +1,14 @@
 import { useState } from "react";
 import ButtonPartial from "../partials/ButtonPartial";
+import axios from "axios";
+
 // import ErrorValidationListComponent from "../components/ErrorValidationListComponent";
 
 import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [inputsValue, setInputsValue] = useState({
-    emailInput: "",
-    passwordInput: "",
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
@@ -17,9 +19,20 @@ const LoginPage = () => {
     setInputsValue(newInputsValue);
   };
 
-  const handleSubmit = () => {
-    // console.log("clicked");
-    navigate("/");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await axios.post("/login", {
+        email: inputsValue.email,
+        password: inputsValue.password,
+      });
+      console.log(data);
+      localStorage.setItem("token", data.userToken);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -36,9 +49,9 @@ const LoginPage = () => {
         <input
           type="email"
           className="form-control"
-          id="emailInput"
+          id="email"
           aria-describedby="emailHelp"
-          value={inputsValue.emailInput}
+          value={inputsValue.email}
           onChange={handleInputChange}
         />
 
@@ -57,8 +70,8 @@ const LoginPage = () => {
         <input
           type="password"
           className="form-control"
-          id="passwordInput"
-          value={inputsValue.passwordInput}
+          id="password"
+          value={inputsValue.password}
           onChange={handleInputChange}
         />
 

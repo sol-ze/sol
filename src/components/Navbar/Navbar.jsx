@@ -8,7 +8,7 @@ const linksArr = [
   new LinkClass("Contact us", "/"),
   new LinkClass("Register", "/registerpage"),
   new LinkClass("Login", "/login"),
-  new LinkClass("/statichomepage", "Static Home"),
+  new LinkClass("Static Home", "/statichomepage"),
 ];
 
 const Navbar = ({ isDark }) => {

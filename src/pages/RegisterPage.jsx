@@ -2,7 +2,6 @@ import ButtonPartial from "../partials/ButtonPartial";
 import { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
-import HomePage from "../pages/HomePage";
 import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
