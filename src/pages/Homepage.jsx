@@ -1,63 +1,42 @@
-import CardComponent from "../components/CardComponent";
-import { Fragment, useState } from "react";
-
-let initialArray = [
-  {
-    id: 1,
-    imgUrl:
-      "https://images.freeimages.com/images/large-previews/a3e/wild-horse-1334844.jpg",
-    title: "Horse 1",
-    description: "asdfasdfasdfasdfasdfasdf",
-  },
-  {
-    id: 2,
-    imgUrl:
-      "https://images.freeimages.com/images/large-previews/a3e/wild-horse-1334844.jpg",
-    title: "Horse 2",
-    description: "asdfasdfasdfasdfasdfasdf",
-  },
-  {
-    id: 3,
-    imgUrl:
-      "https://images.freeimages.com/images/large-previews/a3e/wild-horse-1334844.jpg",
-    title: "Horse 3",
-    description: "asdfasdfasdfasdfasdfasdf",
-  },
-  {
-    id: 4,
-    imgUrl:
-      "https://images.freeimages.com/images/large-previews/a3e/wild-horse-1334844.jpg",
-    title: "Horse 4",
-    description: "asdfasdfasdfasdfasdfasdf",
-  },
-];
+import { useState, useEffect } from "react";
+import CourseCardComponent from "../components/CourseCardComponent";
+import axios from "axios";
 
 const HomePage = () => {
-  const [arrayToDisplay, setArrayToDisplay] = useState(initialArray);
-
-  const deleteItemFromArray = (id) => {
-    setArrayToDisplay((prevState) => prevState.filter((item) => item.id != id));
-    // initialArray = initialArray.filter((item) => item.id != id);
-  };
-
-  return (
-    <Fragment>
-      <h1>Our Hottest deals</h1>
+  const [courseArr, setCourseArr] = useState(null);
+  useEffect(() => {
+    axios
+      .get("/1")
+      .then(({ data }) => {
+        setCourseArr(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  if (courseArr) {
+    return (
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {arrayToDisplay.map((item) => (
-          <div className="col" key={item.id + Date.now()}>
-            <CardComponent
-              id={item.id}
-              imgUrl={item.imgUrl}
-              title={item.title}
+        {courseArr.map((item) => (
+          <div className="col" key={item._id + Date.now()}>
+            <CourseCardComponent
+              courseName={item.couseName}
+              lecturerName={item.lecturer}
               description={item.description}
-              onDelete={deleteItemFromArray}
+              category={item.category}
+              price={item.price}
             />
           </div>
         ))}
       </div>
-    </Fragment>
-  );
+    );
+  } else {
+    return (
+      <div className="spinner-border text-info" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  }
 };
 
 export default HomePage;

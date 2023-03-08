@@ -16,7 +16,6 @@ const buttonPartialOptions = {
 // parent: <ButtonPartial btnOption="">click me</ButtonPartial>
 
 const ButtonPartial = ({ btnOption, icon, children, onClick }) => {
-  console.log("ButtonPartial rendered");
   // const defaultBtnOption = buttonPartialOptions.primary;
   return (
     // <button className={`btn btn-${btnOption ? btnOption : defaultBtnOption}`}>

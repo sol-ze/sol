@@ -1,45 +1,33 @@
-import validateRegisterSchema from "../validation/RegisterValidation";
-import ErrorValidationListComponent from "../components/ErrorValidationListComponent";
 import ButtonPartial from "../partials/ButtonPartial";
 import { Fragment, useState, useEffect } from "react";
+import axios from "axios";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "../pages/HomePage";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [inputsValue, setInputsValue] = useState({
-    nameInput: "",
-    emailInput: "",
-    passwordInput: "",
+    fisrtName: "",
+    lastName: "",
+    email: "",
+    password: "",
   });
-  const [errorsState, setErrorsState] = useState({
-    nameInput: [],
-    emailInput: [],
-    passwordInput: [],
-  });
-  useEffect(() => {
-    //on load to elm/component
-    return () => {
-      //when elm destroyed
-      console.log("elm done");
-    };
-  }, []);
-  useEffect(() => {
-    //each time inputsValue value changed this function will be executed
-    // console.log("inputsValue changed", inputsValue);
-    let newErrorsState = JSON.parse(JSON.stringify(errorsState));
-    for (const [key, value] of Object.entries(inputsValue)) {
-      // console.log(`${key}: ${value}`);
-      if (!value) {
-        newErrorsState[key] = ["this field should not be empty"];
-      } else {
-        newErrorsState[key] = [];
-      }
-    }
-    setErrorsState(newErrorsState);
-  }, [inputsValue]);
+  const navigate = useNavigate();
 
-  const handleBtnClick = () => {
-    console.log("clicked");
-    const validatedValues = validateRegisterSchema(inputsValue);
-    console.log("vv=", validatedValues);
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("/register", {
+        fisrtName: inputsValue.fisrtName,
+        lastName: inputsValue.lastName,
+        email: inputsValue.email,
+        password: inputsValue.password,
+      });
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleInputChange = (ev) => {
     const newInputsValue = JSON.parse(JSON.stringify(inputsValue));
@@ -50,45 +38,58 @@ const RegisterPage = () => {
     <Fragment>
       <h1>Register page</h1>
       <div className="mb-3">
-        <label htmlFor="nameInput" className="form-label">
-          Name
+        <label htmlFor="fisrtName" className="form-label">
+          First Name
         </label>
         <input
           type="text"
           className="form-control"
-          id="nameInput"
-          aria-describedby="emailHelp"
-          value={inputsValue.nameInput}
+          id="fisrtName"
+          value={inputsValue.fisrtName}
           onChange={handleInputChange}
-          placeholder="Name"
+          placeholder="First Name"
         />
       </div>
+
       <div className="mb-3">
-        <label htmlFor="emailInput" className="form-label">
+        <label htmlFor="lastName" className="form-label">
+          Last Name
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="lastName"
+          value={inputsValue.lastName}
+          onChange={handleInputChange}
+          placeholder="Last Name"
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="email" className="form-label">
           Email address
         </label>
         <input
           type="email"
           className="form-control"
-          id="emailInput"
+          id="email"
           aria-describedby="emailHelp"
-          value={inputsValue.emailInput}
+          value={inputsValue.email}
           onChange={handleInputChange}
         />
         <div id="emailHelp" className="form-text">
           We'll never share your email with anyone else.
         </div>
-        <ErrorValidationListComponent errorsArr={errorsState.emailInput} />
       </div>
       <div className="mb-3">
-        <label htmlFor="passwordInput" className="form-label">
+        <label htmlFor="password" className="form-label">
           Password
         </label>
         <input
           type="password"
           className="form-control"
-          id="passwordInput"
-          value={inputsValue.passwordInput}
+          id="password"
+          value={inputsValue.password}
           onChange={handleInputChange}
         />
       </div>
@@ -102,7 +103,7 @@ const RegisterPage = () => {
           Check me out
         </label>
       </div>
-      <ButtonPartial onClick={handleBtnClick}>Submit</ButtonPartial>
+      <ButtonPartial onClick={handleRegister}>Submit</ButtonPartial>
     </Fragment>
   );
 };
