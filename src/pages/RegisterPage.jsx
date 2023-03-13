@@ -3,6 +3,8 @@ import { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import validateRegisterSchema from "../validation/RegisterValidation";
+import AlertPartial from "../partials/AlertPartial";
 
 const RegisterPage = () => {
   const [inputsValue, setInputsValue] = useState({
@@ -11,19 +13,26 @@ const RegisterPage = () => {
     email: "",
     password: "",
   });
+  const [errorState, setErrorState] = useState(null);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post("/register", {
-        fisrtName: inputsValue.fisrtName,
-        lastName: inputsValue.lastName,
-        email: inputsValue.email,
-        password: inputsValue.password,
-      });
-      navigate("/login");
+      const errors = validateRegisterSchema(inputsValue);
+      if (errors) {
+        console.log(errors);
+        setErrorState(errors);
+      } else {
+        await axios.post("/register", {
+          fisrtName: inputsValue.fisrtName,
+          lastName: inputsValue.lastName,
+          email: inputsValue.email,
+          password: inputsValue.password,
+        });
+        navigate("/login");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -37,7 +46,7 @@ const RegisterPage = () => {
     <Fragment>
       <h1>Register page</h1>
       <div className="mb-3">
-        <label htmlFor="fisrtName" className="form-label">
+        <label htmlFor="firstName" className="form-label">
           First Name
         </label>
         <input
@@ -48,6 +57,9 @@ const RegisterPage = () => {
           onChange={handleInputChange}
           placeholder="First Name"
         />
+        {errorState && errorState.fisrtName && (
+          <AlertPartial>{errorState.fisrtName.join("<br>")}</AlertPartial>
+        )}
       </div>
 
       <div className="mb-3">
@@ -62,6 +74,13 @@ const RegisterPage = () => {
           onChange={handleInputChange}
           placeholder="Last Name"
         />
+        {errorState && errorState.lastName && (
+          <AlertPartial>
+            {errorState.lastName.map((item) => (
+              <div>{item}</div>
+            ))}
+          </AlertPartial>
+        )}
       </div>
 
       <div className="mb-3">

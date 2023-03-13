@@ -1,42 +1,23 @@
-const Joi = require("joi");
+import Joi from "joi";
 
-const registerSchema = Joi.object({
-  nameInput: Joi.string().min(3).max(255).alphanum().required().trim(),
-  emailInput: Joi.string().min(5).max(255).email().required().trim(),
-  passwordInput: Joi.string()
-    .regex(
-      new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{0,}$")
-    )
-    .min(8)
-    .max(255)
-    .required()
-    .messages({
-      "string.pattern.base": "password rules",
-    }),
-});
+import validate from "./validate";
 
 const loginSchema = Joi.object({
-  emailInput: Joi.string().min(5).max(255).email().required().trim(),
+  emailInput: Joi.string()
+    .email({ tlds: { allow: false } })
+    .min(5)
+    .max(250)
+    .trim()
+    .required(),
   passwordInput: Joi.string()
-    .regex(
+    .pattern(
       new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{0,}$")
     )
     .min(8)
     .max(255)
-    .required()
-    .messages({
-      "string.pattern.base": "password rules",
-    }),
+    .required(),
 });
 
-const validateRegisterSchema = (userInput) =>
-  validate(userInput, registerSchema);
+const validateLoginSchema = (userInputs) => validate(loginSchema, userInputs);
 
-const validateLoginSchema = (userInput) => validate(userInput, loginSchema);
-
-userIdSchema;
-
-module.exports = {
-  validateRegisterSchema,
-  validateLoginSchema,
-};
+export default validateLoginSchema;

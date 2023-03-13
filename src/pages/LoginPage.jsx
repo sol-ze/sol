@@ -1,16 +1,17 @@
 import { useState } from "react";
 import ButtonPartial from "../partials/ButtonPartial";
 import axios from "axios";
-
-// import ErrorValidationListComponent from "../components/ErrorValidationListComponent";
+import validateLoginSchema from "../validation/LoginValidation";
+import AlertPartial from "../partials/AlertPartial";
 
 import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [inputsValue, setInputsValue] = useState({
-    email: "",
-    password: "",
+    emailInput: "",
+    passwordInput: "",
   });
 
+  const [errorState, setErrorState] = useState(null);
   const navigate = useNavigate();
 
   const handleInputChange = (ev) => {
@@ -23,13 +24,19 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("/login", {
-        email: inputsValue.email,
-        password: inputsValue.password,
-      });
-      console.log(data);
-      localStorage.setItem("token", data.userToken);
-      navigate("/");
+      const errors = validateLoginSchema(inputsValue);
+      if (errors) {
+        console.log(errors);
+        setErrorState(errors);
+      } else {
+        const { data } = await axios.post("/login", {
+          email: inputsValue.emailInput,
+          password: inputsValue.passwordInput,
+        });
+        console.log(data);
+        localStorage.setItem("token", data.userToken);
+        navigate("/");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -49,17 +56,22 @@ const LoginPage = () => {
         <input
           type="email"
           className="form-control"
-          id="email"
+          id="emailInput"
           aria-describedby="emailHelp"
-          value={inputsValue.email}
+          value={inputsValue.emailInput}
           onChange={handleInputChange}
         />
 
         <div id="emailHelp" className="form-text">
           We'll never share your email with anyone else.
         </div>
-
-        {/* <ErrorValidationListComponent errorsArr={errorsState.emailInput} /> */}
+        {errorState && errorState.emailInput && (
+          <AlertPartial>
+            {errorState.emailInput.map((item) => (
+              <div key={item + "email"}> {item}</div>
+            ))}
+          </AlertPartial>
+        )}
       </div>
 
       <div className="mb-3">
@@ -70,12 +82,17 @@ const LoginPage = () => {
         <input
           type="password"
           className="form-control"
-          id="password"
-          value={inputsValue.password}
+          id="passwordInput"
+          value={inputsValue.passwordInput}
           onChange={handleInputChange}
         />
-
-        {/* <ErrorValidationListComponent errorsArr={errorsState.passwordInput} /> */}
+        {errorState && errorState.passwordInput && (
+          <AlertPartial>
+            {errorState.passwordInput.map((item) => (
+              <div key={item + "pass"}>{item}</div>
+            ))}
+          </AlertPartial>
+        )}
       </div>
 
       <ButtonPartial onClick={handleSubmit}>Login</ButtonPartial>

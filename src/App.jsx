@@ -1,4 +1,6 @@
 import Navbar from "./components/Navbar/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import RegisterPage from "./pages/RegisterPage";
 import UseMemoPage from "./pages/UseMemoPage";
 import UseCallbackPage from "./pages/UseCallbackPage";
@@ -10,9 +12,11 @@ import AboutUs from "./pages/AboutUs";
 import ItemPage from "./pages/ItemPage";
 import StaticHomePage from "./pages/StaticHomePage";
 import HomePage from "./pages/HomePage";
+
 const App = () => {
   return (
     <div className="container">
+      <ToastContainer />
       <header>
         <Navbar isDark={true} />
       </header>
