@@ -1,10 +1,14 @@
 import { useState } from "react";
-import ButtonPartial from "../partials/ButtonPartial";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
+import { authActions } from "../store/auth";
+import useLogin from "../hooks/useLogin";
+import ButtonPartial from "../partials/ButtonPartial";
 import validateLoginSchema from "../validation/LoginValidation";
 import AlertPartial from "../partials/AlertPartial";
 
-import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [inputsValue, setInputsValue] = useState({
     emailInput: "",
@@ -13,6 +17,7 @@ const LoginPage = () => {
 
   const [errorState, setErrorState] = useState(null);
   const navigate = useNavigate();
+  const loginFunc = useLogin();
 
   const handleInputChange = (ev) => {
     const newInputsValue = JSON.parse(JSON.stringify(inputsValue));
@@ -35,6 +40,8 @@ const LoginPage = () => {
         });
         console.log(data);
         localStorage.setItem("token", data.userToken);
+        // useDispatch(authActions.login())
+        loginFunc();
         navigate("/");
       }
     } catch (err) {

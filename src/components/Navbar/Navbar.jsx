@@ -1,6 +1,10 @@
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
+
 import "./Navbar.css";
 import NavbarLinkPartial from "../../partials/NavbarLinkPartial";
 import LinkClass from "../../classes/LinkClass";
+import NavBarLinkComponent from "./NavBarLinkComponent";
 
 const linksArr = [
   new LinkClass("Home", "/"),
@@ -8,12 +12,19 @@ const linksArr = [
   new LinkClass("Contact us", "/"),
   new LinkClass("Static Home", "/statichomepage"),
 ];
-const ActionsArray = [
+const authLinks = [
   new LinkClass("Register", "/registerpage"),
   new LinkClass("Login", "/login"),
 ];
 
 const Navbar = ({ isDark }) => {
+  const isLoggedIn = useSelector((state) => state.authStore.isLoggedIn);
+  const userInfo = useSelector((state) => state.authStore.userInfo);
+  const dispatch = useDispatch();
+  const handleLogoutClick = () => {
+    // console.log("handleLogoutClick");
+    dispatch(authActions.logout());
+  };
   return (
     <nav
       className={`navbar ${
@@ -44,15 +55,23 @@ const Navbar = ({ isDark }) => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {linksArr.map((item) => {
               return (
-                <li className="nav-item" key={item.name + Date.now()}>
-                  <NavbarLinkPartial
-                    className={`nav-link ${isDark ? "nav-item-light" : ""}`}
-                    to={item.path}
-                    activeClassName="thickText"
-                  >
-                    {item.name}
-                  </NavbarLinkPartial>
-                </li>
+                <NavBarLinkComponent
+                  key={item.children + Date.now()}
+                  isDark={isDark}
+                  to={item.to}
+                >
+                  {item.children}
+                </NavBarLinkComponent>
+
+                // <li className="nav-item" key={item.name + Date.now()}>
+                //   <NavbarLinkPartial
+                //     className={`nav-link ${isDark ? "nav-item-light" : ""}`}
+                //     to={item.path}
+                //     activeClassName="thickText"
+                //   >
+                //     {item.name}
+                //   </NavbarLinkPartial>
+                // </li>
               );
             })}
           </ul>
@@ -72,20 +91,36 @@ const Navbar = ({ isDark }) => {
               Search
             </button>
           </form>
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {ActionsArray.map((item) => {
-              return (
-                <li className="nav-item" key={item.name + Date.now()}>
-                  <NavbarLinkPartial
-                    className={`nav-link ${isDark ? "nav-item-light" : ""}`}
-                    to={item.path}
-                    activeClassName="thickText"
+          <ul className="navbar-nav mb-2 mb-lg-0">
+            {isLoggedIn
+              ? [
+                  <NavBarLinkComponent
+                    key={"/profile" + Date.now()}
+                    isDark={isDark}
+                    to="/profile"
                   >
-                    {item.name}
-                  </NavbarLinkPartial>
-                </li>
-              );
-            })}
+                    {userInfo.name}
+                  </NavBarLinkComponent>,
+                  <NavBarLinkComponent
+                    key={"/login" + Date.now()}
+                    isDark={isDark}
+                    to="/login"
+                    onClick={handleLogoutClick}
+                  >
+                    Logout
+                  </NavBarLinkComponent>,
+                ]
+              : authLinks.map((item) => {
+                  return (
+                    <NavBarLinkComponent
+                      key={item.children + Date.now()}
+                      isDark={isDark}
+                      to={item.to}
+                    >
+                      {item.children}
+                    </NavBarLinkComponent>
+                  );
+                })}
           </ul>
         </div>
       </div>
