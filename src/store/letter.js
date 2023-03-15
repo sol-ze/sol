@@ -3,23 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 //create variable that we want redux to store for us
 //this object configure the redux "state"
 const initialState = {
-  counter: 0,
+  str: "",
 };
 
-const counterSlice = createSlice({
-  name: "counter", //for redux use
+const strSlice = createSlice({
+  name: "str", //for redux use
   initialState, //initial state
   //functions to manipulate the state
   //the functions inside the reducers called actions
   reducers: {
-    add1(state) {
-      state.counter = state.counter + 1;
+    addA(state) {
+      state.str = state.str + "a";
     },
-    sub1(state) {
-      state.counter = state.counter - 1;
-    },
-    addNumber(state, action) {
-      state.counter += +action.payload;
+    addStr(state, action) {
+      state.str = state.str + action.payload;
     },
   },
 });
@@ -29,9 +26,10 @@ const counterSlice = createSlice({
     so we can use them from other components/pages.
     this is how we can get access to this actions to update/manipulate the "state".
 */
-export const counterActions = counterSlice.actions;
+export const strActions = strSlice.actions;
+
 /*
     export the actions, the state and the other configurations to redux (index.js) of redux
     so redux can configure the "big state"
 */
-export default counterSlice.reducer;
+export default strSlice.reducer;

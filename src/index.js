@@ -10,17 +10,17 @@ import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 /* redux */
 import { Provider } from "react-redux";
-import store from "./store/reduxMarge";
+import store from "./store/reduxMerge";
 
 axios.defaults.baseURL = "/api";
 
-axios.interceptors.request.use((config)=> {
+axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if(token) {
+  if (token) {
     config.headers["token"] = token;
   }
   return config;
-})
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

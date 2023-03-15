@@ -6,9 +6,11 @@ const linksArr = [
   new LinkClass("Home", "/"),
   new LinkClass("About us", "/aboutUs"),
   new LinkClass("Contact us", "/"),
+  new LinkClass("Static Home", "/statichomepage"),
+];
+const ActionsArray = [
   new LinkClass("Register", "/registerpage"),
   new LinkClass("Login", "/login"),
-  new LinkClass("Static Home", "/statichomepage"),
 ];
 
 const Navbar = ({ isDark }) => {
@@ -70,6 +72,21 @@ const Navbar = ({ isDark }) => {
               Search
             </button>
           </form>
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            {ActionsArray.map((item) => {
+              return (
+                <li className="nav-item" key={item.name + Date.now()}>
+                  <NavbarLinkPartial
+                    className={`nav-link ${isDark ? "nav-item-light" : ""}`}
+                    to={item.path}
+                    activeClassName="thickText"
+                  >
+                    {item.name}
+                  </NavbarLinkPartial>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </nav>

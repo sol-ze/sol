@@ -13,9 +13,10 @@ import ItemPage from "./pages/ItemPage";
 import StaticHomePage from "./pages/StaticHomePage";
 import HomePage from "./pages/HomePage";
 import ReduxPage from "./pages/ReduxPage";
-import ReduxPage1 from "./pages/Page1Redux";
-import Page1Redux from "./pages/Page1Redux";
-import Page2Redux from "./pages/Page2Redux";
+import ReduxPage2 from "./pages/ReduxPage2";
+import ReduxPage3 from "./pages/ReduxPage3";
+
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -26,9 +27,8 @@ const App = () => {
       </header>
       <main className="mt-2">
         <Routes>
-          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route path="/" element={<HomePage />} />
           {/* <Route path="/" element={<ReduxPage />} /> */}
-          <Route path="/" element={<ReduxPage1 />} />
 
           <Route path="/statichomepage" element={<StaticHomePage />} />
           <Route path="/registerpage" element={<RegisterPage />} />
@@ -39,8 +39,9 @@ const App = () => {
           <Route path="/item/:id" element={<ItemPage />} />
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/redux2" element={<Page1Redux />} />
-          <Route path="/redux3" element={<Page2Redux />} />
+          <Route path="/redux2" element={<ReduxPage2 />} />
+          <Route path="/redux3" element={<ReduxPage3 />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
       <footer></footer>
