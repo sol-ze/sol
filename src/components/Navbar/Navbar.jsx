@@ -3,6 +3,7 @@ import { authActions } from "../../store/auth";
 
 import "./Navbar.css";
 import NavbarLinkPartial from "../../partials/NavbarLinkPartial";
+
 import LinkClass from "../../classes/LinkClass";
 import NavBarLinkComponent from "./NavBarLinkComponent";
 
@@ -28,14 +29,14 @@ const Navbar = ({ isDark }) => {
   return (
     <nav
       className={`navbar ${
-        isDark ? "bg-primary" : ""
-      } navbar-expand-lg bg-body-tertiary`}
+        isDark ? "bg-dark" : ""
+      } navbar-expand-md bg-body-tertiary`}
     >
       <div className="container-fluid">
         <NavbarLinkPartial
           className={`navbar-brand ${isDark ? "nav-item-light" : ""}`}
           to="/"
-          activeClassName="redText"
+          activeClassName="thickText"
         >
           Navbar
         </NavbarLinkPartial>
@@ -60,6 +61,7 @@ const Navbar = ({ isDark }) => {
                   isDark={isDark}
                   to={item.path}
                   children={item.name}
+                  activeClassName="thickText"
                 ></NavBarLinkComponent>
 
                 // <li className="nav-item" key={item.name + Date.now()}>
@@ -97,6 +99,7 @@ const Navbar = ({ isDark }) => {
                     key={"/profile" + Date.now()}
                     isDark={isDark}
                     to="/profile"
+                    activeClassName="thickText"
                   >
                     {userInfo.name}
                   </NavBarLinkComponent>,
@@ -105,6 +108,7 @@ const Navbar = ({ isDark }) => {
                     isDark={isDark}
                     to="/login"
                     onClick={handleLogoutClick}
+                    activeClassName="thickText"
                   >
                     Logout
                   </NavBarLinkComponent>,
@@ -116,6 +120,7 @@ const Navbar = ({ isDark }) => {
                       isDark={isDark}
                       to={item.path}
                       children={item.name}
+                      activeClassName="thickText"
                     ></NavBarLinkComponent>
                   );
                 })}

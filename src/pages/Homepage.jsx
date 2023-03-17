@@ -58,24 +58,28 @@ const HomePage = () => {
 
   if (courseArr) {
     return (
-      <div className="row row-cols-1 row-cols-md-3 g-4">
-        {courseArr.map((item) => (
-          <div className="col" key={item._id + Date.now()}>
-            <CourseCardComponent
-              id={item._id}
-              courseName={item.couseName}
-              lecturerName={item.lecturer}
-              description={item.description}
-              category={item.category}
-              price={item.price}
-              onAddToWishList={handleAddToWishListClick}
-              onDelete={handleDeleteClick}
-              onEdit={handleEditClick}
-              isAdmin={isAdmin}
-            />
-          </div>
-        ))}
-      </div>
+      <fragment>
+        {" "}
+        <h1>Our Courses</h1>
+        <div className="row row-cols-1 row-cols-md-3 g-4">
+          {courseArr.map((item) => (
+            <div className="col" key={item._id + Date.now()}>
+              <CourseCardComponent
+                id={item._id}
+                courseName={item.couseName}
+                lecturerName={item.lecturer}
+                description={item.description}
+                category={item.category}
+                price={item.price}
+                onAddToWishList={handleAddToWishListClick}
+                onDelete={handleDeleteClick}
+                onEdit={handleEditClick}
+                isAdmin={isAdmin}
+              />
+            </div>
+          ))}
+        </div>
+      </fragment>
     );
   } else {
     return (
