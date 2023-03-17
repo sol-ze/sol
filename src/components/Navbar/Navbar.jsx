@@ -56,12 +56,11 @@ const Navbar = ({ isDark }) => {
             {linksArr.map((item) => {
               return (
                 <NavBarLinkComponent
-                  key={item.children + Date.now()}
+                  key={item.name + Date.now()}
                   isDark={isDark}
-                  to={item.to}
-                >
-                  {item.children}
-                </NavBarLinkComponent>
+                  to={item.path}
+                  children={item.name}
+                ></NavBarLinkComponent>
 
                 // <li className="nav-item" key={item.name + Date.now()}>
                 //   <NavbarLinkPartial
@@ -113,12 +112,11 @@ const Navbar = ({ isDark }) => {
               : authLinks.map((item) => {
                   return (
                     <NavBarLinkComponent
-                      key={item.children + Date.now()}
+                      key={item.name + Date.now()}
                       isDark={isDark}
-                      to={item.to}
-                    >
-                      {item.children}
-                    </NavBarLinkComponent>
+                      to={item.path}
+                      children={item.name}
+                    ></NavBarLinkComponent>
                   );
                 })}
           </ul>

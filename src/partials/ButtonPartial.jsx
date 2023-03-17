@@ -19,7 +19,7 @@ const ButtonPartial = ({ btnOption, icon, children, onClick }) => {
   // const defaultBtnOption = buttonPartialOptions.primary;
   return (
     // <button className={`btn btn-${btnOption ? btnOption : defaultBtnOption}`}>
-    <button className={`btn btn-${btnOption}`} onClick={onClick}>
+    <button className={`btn btn-${btnOption} my-2 me-2`} onClick={onClick}>
       {icon && <i className={`bi ${icon}`}></i>}
       {children}
     </button>

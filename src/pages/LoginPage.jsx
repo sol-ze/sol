@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { authActions } from "../store/auth";
 import useLogin from "../hooks/useLogin";
 import ButtonPartial from "../partials/ButtonPartial";
 import validateLoginSchema from "../validation/LoginValidation";
@@ -38,9 +36,7 @@ const LoginPage = () => {
           email: inputsValue.emailInput,
           password: inputsValue.passwordInput,
         });
-        console.log(data);
         localStorage.setItem("token", data.userToken);
-        // useDispatch(authActions.login())
         loginFunc();
         navigate("/");
       }

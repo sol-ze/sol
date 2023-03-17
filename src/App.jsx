@@ -17,8 +17,8 @@ import HomePage from "./pages/HomePage";
 import ReduxPage2 from "./pages/ReduxPage2";
 import ReduxPage3 from "./pages/ReduxPage3";
 import useLogin from "./hooks/useLogin";
-
 import Profile from "./pages/Profile";
+import EditProduct from "./pages/EditProduct";
 
 const App = () => {
   const loginFunc = useLogin();
@@ -42,10 +42,11 @@ const App = () => {
           <Route path="/usememopage" element={<UseMemoPage />} />
           <Route path="/item/:id" element={<ItemPage />} />
           <Route path="/aboutUs" element={<AboutUs />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="/redux2" element={<ReduxPage2 />} />
           <Route path="/redux3" element={<ReduxPage3 />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/edit/*" element={<EditProduct />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <footer></footer>
