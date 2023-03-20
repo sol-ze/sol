@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -53,12 +53,12 @@ const HomePage = () => {
     }
   };
   const handleEditClick = (id) => {
-    navigate("edit?id=" + id);
+    navigate(`/edit/${id}`);
   };
 
   if (courseArr) {
     return (
-      <fragment>
+      <Fragment>
         {" "}
         <h1>Our Courses</h1>
         <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -79,7 +79,7 @@ const HomePage = () => {
             </div>
           ))}
         </div>
-      </fragment>
+      </Fragment>
     );
   } else {
     return (

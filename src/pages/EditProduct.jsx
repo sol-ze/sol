@@ -1,14 +1,27 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ButtonPartial, { buttonPartialOptions } from "../partials/ButtonPartial";
+import ROUTES from "../routes/routes";
+import AlertPartial from "../partials/AlertPartial";
+
+import {
+  validateIdSchema,
+  validateEditCourseSchema,
+} from "../validation/CardValidation";
 
 const EditProduct = () => {
   const [courseData, setCourseData] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const courseId = searchParams.get("id");
+  const [errorState, setErrorState] = useState(null);
+
+  const { id: courseId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (validateIdSchema({ id: courseId })) {
+      navigate(ROUTES.HOME);
+      return;
+    }
     axios
       .get("/admin/getCourse/" + courseId)
       .then(({ data }) => {
@@ -40,14 +53,31 @@ const EditProduct = () => {
 
   const handleSaveChanges = async (e) => {
     e.preventDefault();
-    try {
-      console.log(courseData);
-      await axios.post("/admin/editCourse/", {
-        productID: courseData._id,
-        //TODO FIX BUG IN BACKEND, SHOULD BE CALL FOR UPDATING MORE THAN COLUMN!
-      });
-    } catch (err) {
-      console.log(err);
+    const errors = validateEditCourseSchema({
+      couseName: courseData.couseName,
+      category: courseData.category,
+      lecturer: courseData.lecturer,
+      description: courseData.description,
+    });
+    //if no Joi errors
+    if (!errors) {
+      try {
+        console.log(courseData);
+        await axios.put("/admin/editAllcourse/", {
+          productID: courseId,
+          couseName: courseData.couseName,
+          category: courseData.category,
+          lecturer: courseData.lecturer,
+          description: courseData.description,
+        });
+        navigate(ROUTES.HOME);
+      } catch (err) {
+        console.log(err);
+      }
+      //There are errors
+    } else {
+      setErrorState(errors);
+      console.log("#");
     }
   };
   if (courseData) {
@@ -69,6 +99,9 @@ const EditProduct = () => {
               onChange={handleInputChange}
               value={courseData.couseName}
             />
+            {errorState && errorState.couseName && (
+              <AlertPartial>{errorState.couseName.join("<br")}</AlertPartial>
+            )}
           </div>
           <div className="form-group col-md-6">
             <label>Category</label>
@@ -109,6 +142,7 @@ const EditProduct = () => {
         >
           Save changes
         </ButtonPartial>
+
         <ButtonPartial
           btnOption={buttonPartialOptions.danger}
           onClick={handleDiscard}
