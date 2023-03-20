@@ -4,6 +4,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ButtonPartial, { buttonPartialOptions } from "../partials/ButtonPartial";
 import ROUTES from "../routes/routes";
 import AlertPartial from "../partials/AlertPartial";
+import useQueryParams from "../hooks/useQueryParams";
 
 import {
   validateIdSchema,
@@ -13,6 +14,9 @@ import {
 const EditProduct = () => {
   const [courseData, setCourseData] = useState(null);
   const [errorState, setErrorState] = useState(null);
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // console.log("searchParams", searchParams);
+  // console.log(useQueryParams());
 
   const { id: courseId } = useParams();
   const navigate = useNavigate();
